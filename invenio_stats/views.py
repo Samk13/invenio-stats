@@ -2,6 +2,7 @@
 #
 # This file is part of Invenio.
 # Copyright (C) 2017-2018 CERN.
+# Copyright (C) 2025 KTH Royal Institute of Technology.
 #
 # Invenio is free software; you can redistribute it and/or modify it
 # under the terms of the MIT License; see LICENSE file for more details.
@@ -9,7 +10,6 @@
 """InvenioStats views."""
 
 from flask import Blueprint, abort, jsonify, request
-from invenio_i18n import gettext as _
 from invenio_rest.views import ContentNegotiatedMethodView
 from invenio_search.engine import search
 
@@ -61,11 +61,9 @@ class StatsQueryResource(ContentNegotiatedMethodView):
                 # 'config' has to be a dictionary with mandatory 'stat' key and
                 # optional 'params' key, and nothing else
                 raise InvalidRequestInputError(
-                    _(
-                        "Invalid Input. It should be of the form "
-                        '{ STATISTIC_NAME: { "stat": STAT_TYPE, '
-                        '"params": STAT_PARAMS }}'
-                    )
+                    "Invalid Input. It should be of the form "
+                    '{ STATISTIC_NAME: { "stat": STAT_TYPE, '
+                    '"params": STAT_PARAMS }}'
                 )
 
             stat = config["stat"]
@@ -77,12 +75,7 @@ class StatsQueryResource(ContentNegotiatedMethodView):
 
             permission = current_stats.permission_factory(stat, params)
             if permission is not None and not permission.can():
-                message = _(
-                    "You do not have a permission to query the "
-                    'statistic "%(stat)s" with those '
-                    "parameters",
-                    stat=stat,
-                )
+                message = f'You do not have a permission to query the statistic "{stat}" with those parameters'
 
                 if current_user.is_authenticated:
                     abort(403, message)

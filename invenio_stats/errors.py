@@ -3,13 +3,13 @@
 # This file is part of Invenio.
 # Copyright (C) 2017-2018 CERN.
 # Copyright (C)      2022 TU Wien.
+# Copyright (C) 2025 KTH Royal Institute of Technology.
 #
 # Invenio is free software; you can redistribute it and/or modify it
 # under the terms of the MIT License; see LICENSE file for more details.
 
 """Errors used in Invenio-Stats."""
 
-from invenio_i18n import gettext as _
 from invenio_rest.errors import RESTException
 
 ##
@@ -72,8 +72,6 @@ class UnknownQueryError(RESTException):
         """
         super(RESTException, self).__init__()
         self.query_name = query_name
-        self.description = _(
-            "Unknown statistic '%(query_name)s'", query_name=query_name
-        )
+        self.description = f"Unknown statistic '{query_name}'"
 
     code = 400
